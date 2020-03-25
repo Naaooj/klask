@@ -1,1 +1,23 @@
-Hello world
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Klask</title>
+        <link rel="stylesheet" href="styles/client.css"> 
+    </head>
+    <body>
+        Welcome to Klask
+
+        <ul id="events"></ul>
+        
+        <form id="chat-form">
+            <input type="text" id="message">
+            <button type="submit">Send</button>
+        </form>
+
+        <!-- Server magically by node -->
+        <script src="/socket.io/socket.io.js"></script>
+
+        <!-- Entry point -->
+        <script src="src/client.js"></script>
+    </body>
+</html>
