@@ -84,6 +84,9 @@ class KlaskScene {
             requestAnimationFrame(animate)
 
             if (this.positions) {
+                this.ball.position.x = this.positions.ball.x / factor
+                this.ball.position.z = this.positions.ball.y / factor
+
                 this.stickPlayer1.position.x = this.positions.stick1.x / factor
                 this.stickPlayer1.position.z = this.positions.stick1.y / factor
             }

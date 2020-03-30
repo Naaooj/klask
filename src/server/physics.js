@@ -9,6 +9,7 @@ class Physics {
 
         this.world = null
         this.table = null
+        this.ball = null;
         this.stick1 = null
         this.timer = null
     }
@@ -23,11 +24,25 @@ class Physics {
             type: 'dynamic'
         }
 
+        const ballBodyDef = {
+            angularDamping: 0.02,
+            bullet: true,
+            linearDamping: 0.01,
+            position: Vec2(0, 0),
+            type: 'dynamic'
+        }
+
         // Fixtures definitions
         const stickFixDef = {
             density: 0.5,
             filterCategoryBits: 0x0002,
             restitution: 0
+        }
+
+        const ballFixDef = {
+            density: 0.75,
+            filterCategoryBits: 0x0004,
+            restitution: 0.9
         }
 
         const stickBlockerFixDef = {
@@ -41,10 +56,10 @@ class Physics {
         const factor = 2
 
         const tableDef = [
-            [{"x": -7, "y": 10}, {"x": 7, "y": 10}],
-            [{"x": 7, "y": 10}, {"x": 7, "y": -10}],
-            [{"x": 7, "y": -10}, {"x": -7, "y": -10}],
-            [{"x": -7, "y": -10}, {"x": -7, "y": 10}]
+            [{ "x": -7, "y": 10 }, { "x": 7, "y": 10 }],
+            [{ "x": 7, "y": 10 }, { "x": 7, "y": -10 }],
+            [{ "x": 7, "y": -10 }, { "x": -7, "y": -10 }],
+            [{ "x": -7, "y": -10 }, { "x": -7, "y": 10 }]
         ]
 
         tableDef.map(edge => {
@@ -58,6 +73,9 @@ class Physics {
             Edge(Vec2(-7 * factor, 0), Vec2(7 * factor, 0)),
             stickBlockerFixDef
         )
+
+        this.ball = this.world.createBody(ballBodyDef)
+        this.ball.createFixture(Circle(0.6 / 2 * factor), ballFixDef)
 
         this.stick1 = this.world.createBody(stickBodyDef)
         // TODO: Share the dimension with the frontend
@@ -80,6 +98,7 @@ class Physics {
         )
 
         this.socket.emit('physics-updated', {
+            ball: this.ball.c_position.c,
             stick1: this.stick1.c_position.c
         })
     }
