@@ -16,12 +16,13 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        include: path.join(__dirname, "src"),
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
+            presets: ['@babel/preset-env']
+          }
+        }
       },
       {
         test: /\.css$/,
