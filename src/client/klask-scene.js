@@ -1,10 +1,12 @@
 "use strict"
 
-import { WebGLRenderer, PerspectiveCamera, Scene, PCFSoftShadowMap, sRGBEncoding, Color, PlaneBufferGeometry, MeshPhongMaterial, Mesh, AxesHelper } from 'three'
+import { WebGLRenderer, PerspectiveCamera, Scene, PCFSoftShadowMap, sRGBEncoding, Color, PlaneBufferGeometry, MeshPhongMaterial, Mesh, AxesHelper, Vector3 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-
+import * as constants from './constants'
 import lights from './light'
 import KlaskTable from './klask-table'
+
+const cameraZPosition = 18
 
 class KlaskScene {
 
@@ -13,12 +15,16 @@ class KlaskScene {
         this.stickPlayer1 = null
         this.stickPlayer2 = null
         this.positions = null
+        this.camera = null
     }
 
     createScene() {
         // Renderer
         const container = document.getElementById('klask-container')
         const renderer = new WebGLRenderer({ alpha: true, antialias: true })
+        while (container.firstChild) {
+            container.removeChild(container.lastChild);
+          }
         container.appendChild(renderer.domElement)
 
         if (window.devicePixelRatio > 1) {
@@ -27,43 +33,54 @@ class KlaskScene {
         renderer.setSize(container.clientWidth, container.clientHeight)
         renderer.shadowMap.enabled = true
         renderer.shadowMap.type = PCFSoftShadowMap
-		renderer.outputEncoding = sRGBEncoding
+        renderer.outputEncoding = sRGBEncoding
 
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight
-            camera.updateProjectionMatrix()
+
+        const resize = () => {
+            this.camera.aspect = container.clientWidth / container.clientHeight
+            this.camera.updateProjectionMatrix()
             renderer.setSize(container.clientWidth, container.clientHeight)
-        })
+        }
+        window.addEventListener('resize', resize)
 
         // Scene
         const scene = new Scene()
-        scene.background = new Color( 0xb0b0b0 )
+        scene.background = new Color(0xb0b0b0)
 
         // Add the light(s)
         scene.add(...lights)
 
         // Camera
-        const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000)
-        camera.position.z = 18
-        camera.position.y = 9
+        this.camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000)        
+        this.camera.position.z = cameraZPosition
+        this.camera.position.y = 9
+        this.camera.lookAt(new Vector3(0, 0, 0))
+        resize()
 
         // Rendering function
         const render = () => {
-            renderer.render(scene, camera)
+            renderer.render(scene, this.camera)
         }
 
-        // Add the orbital control to move the camera
-        var controls = new OrbitControls(camera, renderer.domElement)
-        controls.addEventListener('change', render)
-        controls.minDistance = 5
-        controls.maxDistance = 500
-        controls.enablePan = false
+        if (constants.DEBUG) {
+            // Add the orbital control to move the camera
+            var controls = new OrbitControls(this.camera, renderer.domElement)
+            controls.addEventListener('change', render)
+            controls.minDistance = 5
+            controls.maxDistance = 500
+            controls.enablePan = false
+
+            // Add the axis
+            var axes = new AxesHelper(5)
+            scene.add(axes)
+        }
 
         // Table
-        const table = new KlaskTable()
-        table.createTable(scene)
-        this.ball = table.createBall(scene)
-        this.stickPlayer1 = table.createStick(scene)
+        const table = new KlaskTable(scene)
+        table.createTable()
+        this.ball = table.createBall()
+        this.stickPlayer1 = table.createStick(true)
+        this.stickPlayer2 = table.createStick(false)
 
         // Plan
         var planMaterial = new MeshPhongMaterial({ color: 0x808080, dithering: true })
@@ -73,9 +90,6 @@ class KlaskScene {
         planMesh.rotation.x = -Math.PI * 0.5
         planMesh.receiveShadow = true
         scene.add(planMesh)
-
-        var axes = new AxesHelper(5)
-        scene.add(axes)
 
         // TODO: Share a constant with the back
         const factor = 2
@@ -89,6 +103,9 @@ class KlaskScene {
 
                 this.stickPlayer1.position.x = this.positions.stick1.x / factor
                 this.stickPlayer1.position.z = this.positions.stick1.y / factor
+
+                this.stickPlayer2.position.x = this.positions.stick2.x / factor
+                this.stickPlayer2.position.z = this.positions.stick2.y / factor
             }
 
             render()
@@ -99,6 +116,11 @@ class KlaskScene {
 
     setPositions(data) {
         this.positions = data
+    }
+
+    setCameraPosition(playerNumber) {
+        this.camera.position.set(0, 8, playerNumber === 1 ? cameraZPosition : -cameraZPosition)
+        this.camera.lookAt(new Vector3(0, 0, 0))
     }
 }
 

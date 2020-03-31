@@ -21,7 +21,11 @@ const stickRadius = ballRadius,
 
 class KlaskTable {
 
-    createTable(scene) {
+    constructor(scene) {
+        this.scene = scene
+    }
+
+    createTable() {
         // Table
         var tableGeometry = new BoxGeometry(width, height, depth)
         var tableMaterial = new MeshPhongMaterial({ color: tableColor, dithering: true, wireframe: false })
@@ -61,12 +65,12 @@ class KlaskTable {
         rearWall.position.y = wallHeight / 2
         rearWall.position.z = -depth / 2 - wallWidth / 2
 
-        this.createExtrudedTable(scene)
+        this.createExtrudedTable()
 
-        scene.add(table, leftWall, rightWall, frontWall, rearWall);
+        this.scene.add(table, leftWall, rightWall, frontWall, rearWall);
     }
 
-    createExtrudedTable(scene) {
+    createExtrudedTable() {
         var extrudedFloorPts = [];
         extrudedFloorPts.push(new Vector2(-width / 2, -depth / 2))
         extrudedFloorPts.push(new Vector2(width / 2, -depth / 2))
@@ -96,25 +100,25 @@ class KlaskTable {
         extrudedFloorMesh.geometry.computeVertexNormals()
         extrudedFloorMesh.rotation.x = -Math.PI / 2
         
-        scene.add(extrudedFloorMesh)
+        this.scene.add(extrudedFloorMesh)
     }
 
-    createBall(scene) {
+    createBall() {
         var geometry = new SphereGeometry(ballRadius, 32, 32)
         var material = new MeshPhongMaterial({color: 0xffffff, dithering: true})
         var sphere = new Mesh(geometry, material)
         sphere.position.y = ballRadius * 2
-        scene.add(sphere)
+        this.scene.add(sphere)
         return sphere
     }
 
-    createStick(scene) {
+    createStick(front) {
         var geometry = new CylinderGeometry(stickRadius, stickRadius, stickHeight, 24)
         var material = new MeshPhongMaterial({color: 0x202020, dithering: true})
         var cylinder = new Mesh(geometry, material)
-        cylinder.position.z = depth / 4
+        cylinder.position.z = (front === true ? 1 : -1) * depth / 4
         cylinder.position.y = stickHeight
-        scene.add(cylinder)
+        this.scene.add(cylinder)
         return cylinder
     }
 }

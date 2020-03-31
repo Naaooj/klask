@@ -35,24 +35,10 @@ console.log(`Server listening on port ${port}`)
 
 const io = socketio(server)
 
-// Listen to connection on the socket
-// io.on('connection', (clientSock) => {
-//     console.log('Client (re)connected')
-//     clientSock.emit('message', 'Connected to Klask messaging')
-
-//     // Listen on client message
-//     clientSock.on('message', (text) => {
-
-//         // Broadcast message to all connected clients
-//         io.emit('message', text)
-//     })
-// })
-
 // Listen to errors on the server
 server.on('error', (err) => {
     console.log('Server error: ', err)
 })
-
 
 const GameFactory = () => {
     const id = uniqid.process()

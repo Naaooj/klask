@@ -9,8 +9,9 @@ class Physics {
 
         this.world = null
         this.table = null
-        this.ball = null;
+        this.ball = null
         this.stick1 = null
+        this.stick2 = null
         this.timer = null
     }
 
@@ -74,13 +75,17 @@ class Physics {
             stickBlockerFixDef
         )
 
+        // TODO: Share the dimension with the frontend
         this.ball = this.world.createBody(ballBodyDef)
         this.ball.createFixture(Circle(0.6 / 2 * factor), ballFixDef)
 
         this.stick1 = this.world.createBody(stickBodyDef)
-        // TODO: Share the dimension with the frontend
         this.stick1.setPosition(Vec2(0, 10 / 2 * factor))
         this.stick1.createFixture(Circle(0.6 / 2 * factor), stickFixDef)
+
+        this.stick2 = this.world.createBody(stickBodyDef)
+        this.stick2.setPosition(Vec2(0, - 10 / 2 * factor))
+        this.stick2.createFixture(Circle(0.6 / 2 * factor), stickFixDef)
     }
 
     updatePhysics() {
@@ -91,15 +96,27 @@ class Physics {
             this.player1.movement.y * force
         )
 
+        let stick2Vector = Vec2(
+            -this.player2.movement.x * force,
+            -this.player2.movement.y * force
+        )
+
         this.stick1.applyForce(
             stick1Vector,
             Vec2(this.stick1.getPosition()),
             true
         )
 
+        this.stick2.applyForce(
+            stick2Vector,
+            Vec2(this.stick2.getPosition()),
+            true
+        )
+
         this.socket.emit('physics-updated', {
             ball: this.ball.c_position.c,
-            stick1: this.stick1.c_position.c
+            stick1: this.stick1.c_position.c,
+            stick2: this.stick2.c_position.c
         })
     }
 

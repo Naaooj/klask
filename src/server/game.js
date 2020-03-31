@@ -15,19 +15,18 @@ class Game {
         if (!this.player1) {
             console.log("Adding player 1")
             this.player1 = new Player(socket, () => this.playerReady())
-            this.player1.socket.emit('player-number-assigned', 1)
             this.player1.handleReady()
         } else {
             console.log("Adding player 2")
             this.player2 = new Player(socket, () => this.playerReady())
-            this.player2.socket.emit('player-number-assigned', 2)
+            this.player2.handleReady()
         }
 
         this.playerCount++
     }
 
     playerReady() {
-        if (this.player1.ready === true /*&& this.player2.ready === true*/) {
+        if (this.player1 && this.player2 && this.player1.ready === true && this.player2.ready === true) {
             this.startGame()
         }
     }
@@ -36,6 +35,9 @@ class Game {
         console.log("Start game")
         this.physics = new Physics(this.io, this.player1, this.player2)
         this.physics.startPhysics()
+
+        this.player1.socket.emit('player-number-assigned', 1)
+        this.player2.socket.emit('player-number-assigned', 2)
     }
 
     stopGame() {
