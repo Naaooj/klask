@@ -1,4 +1,11 @@
-class Player {
+export class Player {
+
+    private socket;
+    private score;
+    private ready;
+    private movement;
+    private onReady;
+
     constructor(socket, onReady) {
         this.socket = socket;
         this.score = 0;
@@ -22,5 +29,3 @@ class Player {
         this.socket.on('player-moved', e => this.updateMovement(e));
     }
 }
-
-export default Player

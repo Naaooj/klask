@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/server/server.ts",
     "dev": "cross-env NODE_ENV=development cross-env SERVER_URL=http://localhost nodemon src/server/start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,26 +20,32 @@
   "homepage": "https://github.com/Naaooj/klask#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "planck-js": "^0.3.12",
     "socket.io": "^2.3.0",
     "three": "^0.115.0",
     "uniqid": "^5.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/register": "^7.9.0",
-    "babel-loader": "^8.1.0",
-    "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
-    "html-webpack-plugin": "^4.0.2",
-    "mini-css-extract-plugin": "^0.9.0",
+    "@types/debug": "^4.1.5",
+    "@types/express": "^4.17.6",
+    "@types/serve-favicon": "^2.5.0",
+    "@types/socket.io": "^2.1.4",
+    "css-loader": "^3.5.0",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.0.4",
+    "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
+    "sass-loader": "^8.0.2",
+    "serve-favicon": "^2.5.0",
+    "style-loader": "^1.1.3",
+    "ts-loader": "^6.2.2",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.10.3",
-    "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^4.2.2"
   }
 }
