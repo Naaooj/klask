@@ -1,6 +1,4 @@
-import {io} from 'socket.io-client';
-import * as constants from './constants';
-import {KlaskScene} from './klask-scene';
+import {KlaskScene} from './game/klask-scene';
 
 export class Game {
 
@@ -23,14 +21,6 @@ export class Game {
     init() {
         this.scene = new KlaskScene();
         this.scene.createScene();
-        this.bindSocket();
-    }
-
-    bindSocket() {
-        const socket = io(`${constants.SERVER_URL}/${this.gameId}`);
-        socket.on('player-number-assigned', data => this.setPlayerNumber(data));
-        socket.on('physics-updated', data => this.updatePositions(data));
-        this.socket = socket;
     }
 
     start() {
@@ -63,9 +53,5 @@ export class Game {
             this.playerNumber = data;
             this.scene.setCameraPosition(this.playerNumber);
         }
-    }
-
-    updatePositions(data) {
-        this.scene.setPositions(data);
     }
 }

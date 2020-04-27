@@ -22,7 +22,7 @@
     "express": "^4.17.1",
     "socket.io": "^2.3.0",
     "three": "^0.115.0",
-    "uniqid": "^5.2.0"
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
@@ -36,6 +36,7 @@
     "html-webpack-plugin": "^4.0.4",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
+    "oimo": "^1.0.9",
     "sass-loader": "^8.0.2",
     "serve-favicon": "^2.5.0",
     "style-loader": "^1.1.3",

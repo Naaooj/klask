@@ -1,20 +1,20 @@
 {
-    "compilerOptions": {
-      "target": "ES6",
-      "module": "commonJS",
-      "moduleResolution": "node",
-      "sourceMap": false,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "typeRoots": [
-        "./node_modules/@types"
-      ],
-      "types":[
-          "express",
-          "socket.io"
-      ],
-      "lib": ["dom", "es6"],
-      "noImplicitAny": false,
-      "suppressImplicitAnyIndexErrors": true
-    }
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonJS",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types":[
+        "express",
+        "socket.io"
+    ],
+    "lib": ["dom", "es6"],
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true
   }
+}

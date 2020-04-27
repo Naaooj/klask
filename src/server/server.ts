@@ -1,3 +1,4 @@
+import { SocketServer } from './game/socket-server';
 import * as express from "express";
 import * as path from "path";
 import * as favicon from "serve-favicon";
@@ -8,7 +9,7 @@ import webpackDevConfig from "../config/webpack.dev";
 import "../config/environment";
 import {DIST} from "../config/paths";
 
-export const log = debug('app:server');
+const log = debug('app:server');
 
 class Server {
 
@@ -26,11 +27,11 @@ class Server {
     public listen(port: number) {
         this.server = http.createServer(this.express);
         let io = socketIo(this.server);
-        //let socketServer = new SocketServer(io);
+        let socketServer = new SocketServer(io);
 
         this.server.listen(port, () => {
             log(`listening at http://localhost:${port}`);
-            //socketServer.listen();
+            socketServer.listen();
         });
     }
 
