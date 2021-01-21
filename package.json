@@ -20,7 +20,7 @@
   "homepage": "https://github.com/Naaooj/klask#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "three": "^0.115.0",
     "uuid": "^7.0.3"
   },
