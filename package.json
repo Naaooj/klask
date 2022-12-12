@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/Naaooj/klask#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "socket.io": "^2.3.0",
     "three": "^0.115.0",
     "uuid": "^7.0.3"
@@ -31,7 +31,7 @@
     "@types/socket.io": "^2.1.4",
     "css-loader": "^3.5.0",
     "debug": "^4.1.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.0.4",
     "node-sass": "^4.13.1",
